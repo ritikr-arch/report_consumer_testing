@@ -28,7 +28,7 @@ jobs:
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           server: ftp.digitalnoticeboard.biz
-          port: 21
+          port: 22
           username: reportconsumer@reportconsumer.digitalnoticeboard.biz
           password: 5&gns~Kv&6^f
 
