@@ -1,23 +1,24 @@
-name: 🚀 Deploy via FTP
-
+name: 🚀 Deploy via SFTP
+ 
 on:
   push:
     branches:
-      - main
-
+      - main   # or your deployment branch
+ 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+ 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+ 
+      - name: Upload files via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           server: ${{ secrets.STAGING_HOST }}
+          port: ${{ secrets.STAGING_PORT }}
           username: ${{ secrets.STAGING_USER }}
           password: ${{ secrets.STAGING_PASSWORD }}
-          local-dir: ./
-          server-dir: /public_html/
+          local_path: './*'
+          remote_path: '/'  # change to your actual deploy path
