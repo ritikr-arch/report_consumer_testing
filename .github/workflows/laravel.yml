@@ -1,28 +1,27 @@
-name: 🚀 Deploy to Staging via FTP
-
+name: 🚀 Deploy via SFTP
+ 
 on:
   push:
     branches:
-      - main
-
+      - main   # or your deployment branch
+ 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+ 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Upload files via FTP
+ 
+      - name: Upload files via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           server: ${{ secrets.STAGING_HOST }}
           port: ${{ secrets.STAGING_PORT }}
           username: ${{ secrets.STAGING_USER }}
           password: ${{ secrets.STAGING_PASSWORD }}
-
-          local_path: ./
-          remote_path: /   # 🔴 change as per hosting
+          local_path: './*'
+          remote_path: '/'  # change to your actual deploy path
 
           sftp_only: false
           delete_remote_files: false
