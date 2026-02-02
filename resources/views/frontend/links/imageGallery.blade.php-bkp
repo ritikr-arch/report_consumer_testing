@@ -1,0 +1,63 @@
+@extends('frontend.layout.app') 
+@section('title', @$title) 
+@section('content') 
+<div class="breadcumb-wrapper background-image" style="background-image: url('frontend/img/bread-crum.jpg');">
+  <div class="container">
+    <div class="breadcumb-content">
+      <h2 class="breadcumb-title1">Gallery</h2>
+    </div>
+  </div>
+</div>
+
+@if(!empty($image) && count($image)>0)
+<div class="container">
+  <div class="popup-gallery">
+    @foreach($image as $values)
+    <div class="gallery_item">
+      <a class="hover_affect_nlf position-relative" href="{{ asset('admin/images/imageGallery/'.$values['image']) }}" title="{{ $values['title'] }}">
+        <img src="{{ asset('admin/images/imageGallery/'.$values['image']) }}" alt="{{ $values['title'] }}">
+        <span class="singicon_btn_nlf">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+          </svg>
+        </span>
+      </a>
+
+       <div class="d-none category-images" data-category-id="{{ $values->id }}">
+        @if(isset($values->multiImages) && count($values->multiImages)>0)
+          @foreach($values->multiImages as $slideImage)
+           <a class="related-image" href="{{asset('admin/images/imageGallery/'.$slideImage->name)}}" data-image-id="{{ $slideImage->id }}">
+            <img src="{{asset('gallery/images/'.$slideImage->name)}}" class="img-fluid" alt="Lorem ipsum dolor sit amet">
+          </a>
+          @endforeach
+        @endif
+      </div>
+
+    </div>
+    @endforeach
+  </div>
+</div>
+@endif
+<script>
+  // popup-gallery
+  jQuery(document).ready(function($) {
+    $(".popup-gallery").magnificPopup({
+      delegate: "a",
+      type: "image",
+      tLoading: "Loading image #%curr%...",
+      mainClass: "mfp-img-mobile",
+      gallery: {
+        enabled: true,
+        navigateByImgClick: true,
+        preload: [0, 1] // Preload previous and next images
+      },
+      image: {
+        tError: ' < a href = "%url%" > The image # % curr % < /a> could not be loaded.',
+        titleSrc: function(item) {
+          return item.el.attr("title") || "";
+        }
+      }
+    });
+  });
+</script> 
+@endsection

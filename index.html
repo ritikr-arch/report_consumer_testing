@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FTP File Manager</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        table { width: 80%; margin: auto; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ccc; }
+        th { background-color: #f4f4f4; }
+        a { text-decoration: none; color: blue; }
+    </style>
+</head>
+<body>
+    <h2>FTP File Manager</h2>
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">Upload</button>
+    <br><br>
+    <table>
+        <tr>
+            <th>File Name</th>
+            <th>Size</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            <td><a href="#">example.txt</a></td>
+            <td>10 KB</td>
+            <td><button>Delete</button></td>
+        </tr>
+    </table>
+
+    <script>
+        function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length > 0) {
+                alert("Uploading: " + fileInput.files[0].name);
+                // Implement actual upload logic here
+            } else {
+                alert("Please select a file.");
+            }
+        }
+    </script>
+</body>
+</html>

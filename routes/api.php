@@ -1,0 +1,84 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+use Laravel\Passport\Http\Controllers\AuthorizationController;
+use Laravel\Passport\Http\Controllers\TokenController;
+use Laravel\Passport\Http\Controllers\TransientTokenController;
+use Laravel\Passport\Http\Controllers\ClientsController;
+use Laravel\Passport\Http\Controllers\PersonalAccessTokenController;
+
+use App\Http\Controllers\api\HomeController;
+use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\SurveyController;
+use App\Http\Controllers\api\ProfileController;
+use App\Http\Controllers\api\NotificationController;
+use App\Http\Controllers\api\InvestigationOfficerController;
+
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
+
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/forgot-password', [AuthController::class, 'sendResetLink']);
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('/reset-password', [AuthController::class, 'reset']);
+
+Route::middleware('auth:api')->group(function(){
+
+    Route::controller(ProfileController::class)->group(function(){
+        Route::get('profile', 'index');
+        Route::post('change-password', 'updatePassword');
+        Route::post('update-profile', 'updateProfile');
+        Route::post('logout', 'logout');
+        Route::get('submitted/survey/details', 'submittedSurveyDetails');
+        Route::get('help-faq', 'help');
+    });
+
+    Route::controller(SurveyController::class)->group(function(){
+        Route::get('suvery-list', 'index');
+        Route::get('get-survey', 'getSurvey');
+        Route::post('validate-survey', 'validateSurvey');
+        Route::post('submit-survey', 'submitSurvey');
+        Route::get('submitted-survey-list', 'submittedSurveyList');
+        Route::get('submitted-survey-commodities', 'submittedSurveyCommodities');
+        Route::get('get-single-submitted-survey', 'singleSubmittedSurvey');
+        Route::post('update-survey', 'updateSurvey');
+        Route::get('get-filters-master-data', 'getMasterData');
+        Route::post('delete-submitted-survey', 'deleteSubmittedSurvey');
+        Route::post('save-survey', 'saveSurvey');
+        Route::get('saved-survey-list', 'savedSurveyList');
+        Route::get('saved-survey-commodities', 'savedSurveyCommodities');
+        Route::post('survey-final-approve', 'approveSurvey');
+        Route::post('publish-survey', 'publishSurvey');
+        Route::post('unpublish-survey', 'unpublishSurvey');
+        Route::post('submit-offline-survey', 'submitOfflineSurvey');
+    });
+
+    Route::controller(NotificationController::class)->group(function(){
+        Route::get('get-notification', 'index');
+    });
+
+    Route::controller(InvestigationOfficerController::class)->group(function(){
+        Route::get('assigned-submitted-survey', 'index');
+        Route::get('assigned-survey-commodity', 'assignedCommodity');
+        Route::post('approve-survey', 'approveSurvey');
+    });
+
+});

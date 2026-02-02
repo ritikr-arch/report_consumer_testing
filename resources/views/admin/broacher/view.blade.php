@@ -1,0 +1,84 @@
+@extends('admin.layouts.app')
+
+@section('title', @$title)
+
+@section('content')
+
+<div class="px-3">
+
+    <!-- Start Content-->
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center d-flex mb-3">
+                            <div class="col-xl-12">
+                                <h4 class="header-title mb-0 font-weight-bold" style="font-size:24px;">
+                                    View
+                                </h4>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+
+                        <div class="col-md-6">
+
+                            <div class="view-txt">
+                                <h5>Type :</h5>
+                                <h6> {{@$data->type}}</h6>
+                            </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="view-txt">
+                                    <h5>Title :</h5>
+                                    <h6> {{@$data->title}}</h6>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="view-txt">
+                                    <h5>Status :</h5>
+                                    <h6> {{($data->status == '1')?'Active':'Deactive'}}</h6>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="view-txt">
+                                    <h5>Document :</h5>
+
+                                    <a href="{{asset('admin/images/broacher/'.@$data->document )}}" target="_blank">View Document</a>
+
+                                    <!-- <img style="height: 40px;width: 40px;border-radius: 25%"
+                                        src="{{asset('admin/images/banner/'.$data->image)}}" alt="market"> -->
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="view-txt">
+                                    <h5>Image  :</h5>
+                                    <a href="{{asset('admin/images/broacher/'.@$data->image)}}" target="_blank">
+                                    <img style="height: 40px;width: 40px;border-radius: 25%"
+                                        src="{{asset('admin/images/broacher/'.@$data->image)}}" alt="market">
+                                        </a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+@endsection
