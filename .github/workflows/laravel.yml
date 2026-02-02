@@ -33,7 +33,7 @@ jobs:
           password: ${{ secrets.STAGING_PASSWORD }}# FTP password
 
           local_path: ./                            # full Laravel project
-          remote_path: reportconsumer.digitalnoticeboard.biz/                 # deploy path on server
+          remote_path: /home3/digituqa/reportconsumer.digitalnoticeboard.biz                 # deploy path on server
 
           sftp_only: false                          # FTP mode
           delete_remote_files: false                # keep old files
