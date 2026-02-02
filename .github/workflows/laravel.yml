@@ -14,12 +14,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Optional: Clean unnecessary files before upload
+      # 2️⃣ Clean unnecessary files before upload
       - name: Remove unnecessary files
         run: |
           rm -rf .git
           rm -rf node_modules
           rm -rf tests
+          rm -rf storage/*.log
+          rm -rf vendor # FTP upload of vendor is optional if you upload manually
 
       # 3️⃣ Upload files via FTP
       - name: Upload files via FTP
@@ -31,7 +33,21 @@ jobs:
           password: ${{ secrets.STAGING_PASSWORD }}# FTP password
 
           local_path: ./                            # full Laravel project
-          remote_path: /                            # deploy path on server
+          remote_path: reportconsumer.digitalnoticeboard.biz/                 # deploy path on server
 
           sftp_only: false                          # FTP mode
           delete_remote_files: false                # keep old files
+
+      # 4️⃣ Optional: Post-deploy commands via SSH (only if you have SSH access)
+      # - name: Run Laravel commands (composer, artisan)
+      #   uses: appleboy/ssh-action@v0.1.7
+      #   with:
+      #     host: ${{ secrets.STAGING_HOST }}
+      #     username: ${{ secrets.STAGING_USER }}
+      #     password: ${{ secrets.STAGING_PASSWORD }}
+      #     port: 22
+      #     script: |
+      #       cd /public_html
+      #       composer install --no-dev
+      #       php artisan migrate --force
+      #       php artisan storage:link
