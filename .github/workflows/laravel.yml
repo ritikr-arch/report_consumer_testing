@@ -3,7 +3,7 @@ name: 🚀 Deploy Laravel via FTP
 on:
   push:
     branches:
-      - main   # deploy only on main branch
+      - main
 
 jobs:
   deploy:
@@ -14,40 +14,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Clean unnecessary files before upload
-      - name: Remove unnecessary files
+      # 2️⃣ Remove unnecessary files before upload
+      - name: Clean project
         run: |
           rm -rf .git
           rm -rf node_modules
           rm -rf tests
           rm -rf storage/*.log
-          rm -rf vendor # FTP upload of vendor is optional if you upload manually
+          rm -rf vendor
 
       # 3️⃣ Upload files via FTP
       - name: Upload files via FTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.STAGING_HOST }}       # FTP host
-          port: 21                                  # FTP default port
-          username: ${{ secrets.STAGING_USER }}    # FTP username
-          password: ${{ secrets.STAGING_PASSWORD }}# FTP password
+          server: ftp.digitalnoticeboard.biz
+          port: 21
+          username: reportconsumer@reportconsumer.digitalnoticeboard.biz
+          password: 5&gns~Kv&6^f
 
-          local_path: ./                            # full Laravel project
-          remote_path: /home3/digituqa/reportconsumer.digitalnoticeboard.biz                 # deploy path on server
+          local_path: ./
+          remote_path: /home3/digituqa/reportconsumer.digitalnoticeboard.biz/
 
-          sftp_only: false                          # FTP mode
-          delete_remote_files: false                # keep old files
-
-      # 4️⃣ Optional: Post-deploy commands via SSH (only if you have SSH access)
-      # - name: Run Laravel commands (composer, artisan)
-      #   uses: appleboy/ssh-action@v0.1.7
-      #   with:
-      #     host: ${{ secrets.STAGING_HOST }}
-      #     username: ${{ secrets.STAGING_USER }}
-      #     password: ${{ secrets.STAGING_PASSWORD }}
-      #     port: 22
-      #     script: |
-      #       cd /public_html
-      #       composer install --no-dev
-      #       php artisan migrate --force
-      #       php artisan storage:link
+          sftp_only: false
+          delete_remote_files: false
