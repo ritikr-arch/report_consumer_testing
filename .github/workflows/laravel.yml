@@ -23,5 +23,5 @@ jobs:
           port: 21
           protocol: ftp
           local-dir: ./
-          server-dir: /home3/digituqa/reportconsumer.digitalnoticeboard.biz
+          server-dir: /home3/digituqa/reportconsumer.digitalnoticeboard.biz/
           dangerous-clean-slate: false
