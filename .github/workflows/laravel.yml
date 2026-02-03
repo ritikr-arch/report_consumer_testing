@@ -1,39 +1,27 @@
-name: 🚀 Deploy Laravel via FTP
+name: Deploy via SFTP
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # 2️⃣ Remove unnecessary files before upload
-      - name: Clean project
-        run: |
-          rm -rf .git
-          rm -rf node_modules
-          rm -rf tests
-          rm -rf storage/*.log
-          rm -rf vendor
-
-      # 3️⃣ Upload files via FTP
-      - name: Upload files via FTP
+      - name: Upload via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ftp.digitalnoticeboard.biz
+          username: ${{ secrets.STAGING_USER }}
+          server: ${{ secrets.STAGING_HOST }}
           port: 22
-          username: reportconsumer@reportconsumer.digitalnoticeboard.biz
-          password: 5&gns~Kv&6^f
-
-          local_path: ./
-          remote_path: /home3/digituqa/reportconsumer.digitalnoticeboard.biz/
-
-          sftp_only: false
-          delete_remote_files: false
+          password: ${{ secrets.STAGING_PASSWORD }}
+          local_path: ./                      # Folder from GitHub repo
+          remote_path: /home3/digituqa/reportconsumer.digitalnoticeboard.biz     # Folder on server
+          sftp_only: false                     # Ensure SFTP is used
+          delete_remote_files: false          # Keep existing files
