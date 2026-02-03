@@ -1,4 +1,4 @@
-name: Deploy via SFTP
+name: Deploy via FTP
 
 on:
   push:
@@ -14,14 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Upload via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          username: ${{ secrets.STAGING_USER }}
           server: ${{ secrets.STAGING_HOST }}
-          port: 22
+          username: ${{ secrets.STAGING_USER }}
           password: ${{ secrets.STAGING_PASSWORD }}
-          local_path: ./                      # Folder from GitHub repo
-          remote_path: /home3/digituqa/reportconsumer.digitalnoticeboard.biz     # Folder on server
-          sftp_only: false                     # Ensure SFTP is used
-          delete_remote_files: false          # Keep existing files
+          port: 21
+          protocol: ftp
+          local-dir: ./
+          server-dir: /home3/digituqa/reportconsumer.digitalnoticeboard.biz
+          dangerous-clean-slate: false
